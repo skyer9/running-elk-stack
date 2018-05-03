@@ -12,7 +12,7 @@ Amazon Linux AMI 를 생성하고, 인스턴스 유형은 t2.medium, SSD 용량�
 sudo yum -y update
 ```
 
-## 2. 자바를 업그래이드한다.
+## 2. 자바 업그래이드하기
 
 JAVA 버전은 8.x 로 설치해야 한다.(7.x, 9.x 모두 지원안함.)
 
