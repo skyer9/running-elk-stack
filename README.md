@@ -2,16 +2,24 @@
 
 이 문서는 AWS EC2 에서 ELK 스택을 구성하고, 운영하는 방법을 설명한다.
 
-## 1. Amazon Linux AMI 를 생성하고, 인스턴스 유형은 t2.medium, SSD 용량은 20G 로 합니다.
+## 1. 인스턴스 생성
 
-   인스턴스가 생성되면 아래 명령을 실행해준다.
+Amazon Linux AMI 를 생성하고, 인스턴스 유형은 t2.medium, SSD 용량은 20G 로 합니다.
 
-   $ sudo yum -y update
+인스턴스가 생성되면 아래 명령을 실행해준다.
+
+```sh
+sudo yum -y update
+```
 
 ## 2. 자바를 업그래이드한다.
 
-   $ sudo yum -y install java-1.8.0
-   $ sudo yum -y remove java-1.7.0-openjdk
+JAVA 버전은 8.x 로 설치해야 한다.(7.x, 9.x 모두 지원안함.)
+
+```sh
+sudo yum -y install java-1.8.0
+sudo yum -y remove java-1.7.0-openjdk
+```
 
 ## 3. ElasticSearch 설치하기
 
@@ -59,7 +67,7 @@ $ sudo -i service elasticsearch stop
 $ sudo -i service elasticsearch start
 ```
 
-ElasticSearch Head Chrome Plugin 을 설치한다.
+Chrome Plugin 중 [ElasticSearch Head](https://chrome.google.com/webstore/detail/elasticsearch-head/ffmkiejjmecolpfloofpjologoblkegm) 를 설치한다.
 
 ## 4. Kibana 설치하기
 
