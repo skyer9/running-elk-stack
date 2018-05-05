@@ -124,3 +124,13 @@ output {
 
 $ sudo -Hu logstash bin/logstash --path.settings=/etc/logstash -f logstash-simple.conf
 ```
+
+## 6. ELK 스택 종료하기
+
+ELK 스택을 종료하려면 아래 명령을 입력한다.
+
+```sh
+sudo initctl stop logstash
+sudo -i service kibana stop
+sudo -i service elasticsearch stop
+```
