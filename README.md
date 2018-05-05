@@ -1,6 +1,6 @@
 # Running ELK Stack on AWS EC2
 
-이 문서는 AWS EC2 에서 ELK 스택을 구성하고, 운영하는 방법을 설명한다.
+이 문서는 AWS EC2 에서 ELK 6.x 스택을 구성하고, 운영하는 방법을 설명한다.
 
 ## 1. 인스턴스 생성
 
@@ -109,7 +109,7 @@ $ sudo yum -y install logstash
 $ cd /usr/share/logstash/
 $ bin/logstash --version
 
-# 키보드 입력을 받아 화면에 출력하는 간단한 설정을 생성한다.
+# 샘플 로그를 입력받아 화면에 출력하는 간단한 설정을 생성한다.
 $ sudo vi logstash-simple.conf
 ---------------------------------------------------------------------
 input {
@@ -117,12 +117,19 @@ input {
 }
 
 output {
-    elasticsearch { hosts => ["localhost:9200"] }
+    # elasticsearch { hosts => ["localhost:9200"] }
     stdout { codec => rubydebug }
 }
 ---------------------------------------------------------------------
 
-$ sudo -Hu logstash bin/logstash --path.settings=/etc/logstash -f logstash-simple.conf
+$ sudo vi test.log
+---------------------------------------------------------------------
+aaa
+bbb
+ccc
+---------------------------------------------------------------------
+
+$ sudo -Hu logstash bin/logstash --path.settings=/etc/logstash -f logstash-simple.conf < test.log
 ```
 
 ## 6. ELK 스택 종료하기
