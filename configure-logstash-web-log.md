@@ -2,31 +2,47 @@
 
 웹로그를 Logstash 를 이용해 파싱하고, ElasticSearch 에 전송하는 방법을 설명한다.
 
-## 기존 template 을 삭제하기
+## template 등록하기
 
 ```sh
+# 현재 등록되어 있는 template 표시하기
 $ curl -X GET "localhost:9200/_template?pretty"
-$ curl -X DELETE "localhost:9200/_template/logstash*?pretty"
-{"acknowledged":true}
+
+# 템플릿 등록하기
+$ curl -XPUT 'localhost:9200/_template/template_weblog?pretty' \
+    -H'Content-Type: application/json' \
+    -d '
+{
+  "template" : "weblog-*",
+  "settings" : {
+    "number_of_replicas" : "0"
+  }
+}'
+
+# 등록되어 있는 모든 템플릿 삭제
+# $ curl -X DELETE "localhost:9200/_template/*?pretty"
+# {
+#   "acknowledged" : true
+# }
 ```
 
-### template 은 무엇이고, 왜 삭제하는가
+## Apache 웹로그
+
+todo!!
 
 ## IIS 웹로그
 
 ```sh
-cd /usr/share/logstash/
-sudo -Hu logstash mkdir data/test
-# 위에 생성한 디렉토리에 웹로그파일을 복사해 넣는다.
+$ cd /usr/share/logstash/
 
-sudo sudo -Hu logstash mkdir conf
-sudo sudo -Hu logstash vi conf/logstash-iis.conf
+# 아래 생성한 디렉토리에 IIS 웹로그파일을 복사해 넣는다.
+$ sudo -Hu logstash mkdir data/test
+
+$ sudo -Hu logstash mkdir conf
+$ sudo -Hu logstash vi conf/logstash-iis.conf
 ---------------------------------------------------------------------
 input {
-  file {
-    type => "iis-w3c"
-    path => "/usr/share/logstash/data/test/*.log"
-  }
+  stdin { }
 }
 
 # 상단 코맨트 삭제
@@ -62,7 +78,7 @@ output {
     hosts => "localhost:9200"
 
     # Log records into month-based indexes
-    index => "%{type}-%{+YYYY.MM.dd}"
+    index => "weblog-%{+YYYY.MM.dd}"
   }
 
   # stdout included just for testing
@@ -70,9 +86,5 @@ output {
 }
 ---------------------------------------------------------------------
 
-$ sudo -Hu logstash bin/logstash --path.settings=/etc/logstash -f conf/logstash-iis.conf
+$ sudo -Hu logstash bin/logstash --path.settings=/etc/logstash -f conf/logstash-iis.conf < data/test/*.log
 ```
-
-## Apache 웹로그
-
-todo!!
