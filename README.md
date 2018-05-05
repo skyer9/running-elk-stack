@@ -141,3 +141,7 @@ sudo initctl stop logstash
 sudo -i service kibana stop
 sudo -i service elasticsearch stop
 ```
+
+## 7. Logstash 추가설정하기
+
+[여기](./configure-logstash-web-log.md) 에서 Logstash 에 대한 추가설정을 볼 수 있다.
